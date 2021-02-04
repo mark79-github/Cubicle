@@ -50,4 +50,16 @@ router.post('/:productId/attach', (req, res) => {
         .catch(() => res.status(500).end());
 });
 
+router.get('/edit/:productId', async (req, res) => {
+    let product = await productService.getOne(req.params.productId, false);
+    // product['difficultyLevel' + product.difficultyLevel] = product.difficultyLevel;
+    res.render('products/edit', {title: 'Edit', product});
+});
+
+router.get('/delete/:productId', async (req, res) => {
+    let product = await productService.getOne(req.params.productId, false);
+    // product['difficultyLevel' + product.difficultyLevel] = product.difficultyLevel;
+    res.render('products/delete', {title: 'Delete', product})
+});
+
 module.exports = router;

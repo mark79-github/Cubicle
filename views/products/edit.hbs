@@ -1,0 +1,49 @@
+{{#with product}}
+    <main>
+        <h1>Edit Cube</h1>
+        <div class="form">
+            <form action="/products/edit/{{_id}}" method="POST">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" value="{{name}}">
+                <label for="name">Description</label>
+                <textarea id="name" name="description">{{description}}</textarea>
+                <label for="image">ImageUrl</label>
+                <input type="text" id="image" name="imageUrl" value="{{imageUrl}}">
+                <label for="difficulty">Difficulty</label>
+                <select id="difficulty" name="difficultyLevel">
+                    {{#if difficultyLevel1}}
+                        <option value="1" selected>1 - Very Easy</option>
+                    {{else}}
+                        <option value="1">1 - Very Easy</option>
+                    {{/if}}
+                    {{#if difficultyLevel2}}
+                        <option value="2" selected>2 - Easy</option>
+                    {{else}}
+                        <option value="2">2 - Easy</option>
+                    {{/if}}
+                    {{#if difficultyLevel3}}
+                        <option value="3" selected>3 - Medium (Standard 3x3)</option>
+                    {{else}}
+                        <option value="3">3 - Medium (Standard 3x3)</option>
+                    {{/if}}
+                    {{#if difficultyLevel4}}
+                        <option value="4" selected>4 - Intermediate</option>
+                    {{else}}
+                        <option value="4">4 - Intermediate</option>
+                    {{/if}}
+                    {{#if difficultyLevel5}}
+                        <option value="5" selected>5 - Expert</option>
+                    {{else}}
+                        <option value="5">5 - Expert</option>
+                    {{/if}}
+                    {{#if difficultyLevel6}}
+                        <option value="6" selected>6 - Hardcore</option>
+                    {{else}}
+                        <option value="6">6 - Hardcore</option>
+                    {{/if}}
+                </select>
+                <input type="submit" value="Edit">
+            </form>
+        </div>
+    </main>
+{{/with}}
