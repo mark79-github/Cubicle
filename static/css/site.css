@@ -90,6 +90,10 @@ p.name {
     border-bottom: 1px solid #2b415433;
 }
 
+.btn-wrapper {
+    display: flex;
+}
+
 
 button, main a.btn {
     border: none;

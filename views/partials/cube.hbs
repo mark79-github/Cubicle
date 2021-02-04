@@ -1,8 +1,9 @@
 <div class="cube">
-    <img class="cube"
-         src="{{imageUrl}}">
+    <img class="cube" src="{{imageUrl}}" alt="cube image">
     <p class="name">{{name}}</p>
     <p><span>Difficulty level:</span>{{difficultyLevel}}</p>
-    <a class="btn" href="/products/details/{{_id}}">Details</a>
-    <a class="btn" href="/products/{{_id}}/attach">Attach</a>
+    <div class="btn-wrapper">
+        <a class="btn" href="/products/details/{{_id}}">Details</a>
+        <a class="btn" href="/products/{{_id}}/attach">Attach</a>
+    </div>
 </div>
