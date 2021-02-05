@@ -52,14 +52,25 @@ router.post('/:productId/attach', (req, res) => {
 
 router.get('/edit/:productId', async (req, res) => {
     let product = await productService.getOne(req.params.productId, false);
-    // product['difficultyLevel' + product.difficultyLevel] = product.difficultyLevel;
     res.render('products/edit', {title: 'Edit', product});
 });
 
 router.get('/delete/:productId', async (req, res) => {
     let product = await productService.getOne(req.params.productId, false);
-    // product['difficultyLevel' + product.difficultyLevel] = product.difficultyLevel;
     res.render('products/delete', {title: 'Delete', product})
+});
+
+router.post('/edit/:productId', (req, res) => {
+    const productId = req.params.productId;
+    productService.update(productId, req.body)
+        .then(() => res.redirect(`/products/details/${productId}`))
+        .catch(() => res.status(500).end());
+});
+
+router.post('/delete/:productId', (req, res) => {
+    productService.remove(req.params.productId)
+        .then(() => res.redirect('/products'))
+        .catch(() => res.status(500).end());
 });
 
 module.exports = router;

@@ -11,7 +11,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: 8,
-        validate: new RegExp('^[A-Za-z0-9]+$', 'g')
     }
 });
 
