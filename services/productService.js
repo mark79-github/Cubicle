@@ -28,8 +28,8 @@ function getOne(id, populateData) {
         : Cube.findById(id).lean();
 }
 
-function create(data) {
-    let cube = new Cube(data);
+function create(creatorId, data) {
+    let cube = new Cube({...data, creatorId});
     return cube.save();
 }
 
@@ -37,7 +37,7 @@ function update(id, data) {
     return Cube.findByIdAndUpdate(id, data);
 }
 
-function remove(id){
+function remove(id) {
     return Cube.findByIdAndDelete(id);
 }
 

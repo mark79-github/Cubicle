@@ -1,24 +1,26 @@
 const User = require('../models/User');
+const jwt = require('jsonwebtoken');
+const config = require('../config/config');
+const bcrypt = require('bcrypt');
 
-function create(data) {
+const create = (data) => {
     let user = new User(data);
     return user.save();
 }
 
-function login(data) {
+const login = async (data) => {
     const {username, password} = data;
 
-    User.findOne({username})
-        .then((response) => {
-            if (response) {
-                return response;
-            }
-            return 'no user found';
-        }).then((user) => {
-        console.log(user);
-        return user;
-    }).catch(console.log);
-}
+    let user = await User.findOne({username});
+    if (!user) throw {message: 'User not found'};
+
+    let isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) throw {message: 'Password does not match'};
+
+    let token = jwt.sign({id: user._id}, config.secret, {expiresIn: "1h"});
+
+    return token;
+};
 
 module.exports = {
     create,
