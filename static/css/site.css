@@ -220,22 +220,22 @@ div.form {
     margin: auto;
 }
 
-span.error {
-    animation: fadeOut 1s forwards;
-    animation-delay: 2s;
-    background: #EF5542;
-    color: white;
-    padding: 10px;
-    text-align: center;
-    text-decoration: none;
-    border-radius: 20px;
-    font-weight: normal;
-    position: relative;
-    float: right;
-    margin-top: 20px;
-    overflow: hidden;
-    display: block;
-}
+/*span.error {*/
+/*    animation: fadeOut 1s forwards;*/
+/*    animation-delay: 2s;*/
+/*    background: #EF5542;*/
+/*    color: white;*/
+/*    padding: 10px;*/
+/*    text-align: center;*/
+/*    text-decoration: none;*/
+/*    border-radius: 20px;*/
+/*    font-weight: normal;*/
+/*    position: relative;*/
+/*    float: right;*/
+/*    margin-top: 20px;*/
+/*    overflow: hidden;*/
+/*    display: block;*/
+/*}*/
 
 img#sadFaceImg {
     display: block;
@@ -266,6 +266,24 @@ footer {
     color: white;
     font-size: 20px;
 }
+
+#notifications {
+    margin: 0 auto;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    text-align: center;
+    width: 50%;
+    padding: 0.5%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    background: rgb(231, 118, 118);
+    color: white;
+    border-radius: 5px;
+    text-decoration: underline;
+    animation: fadeOut 1s forwards;
+    animation-delay: 2s;
+}
+
 
 /*Animations & Transitions
 */
