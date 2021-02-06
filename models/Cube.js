@@ -24,7 +24,7 @@ const cubeSchema = new mongoose.Schema({
         min: 1,
         max: 6
     },
-    creatorId: {
+    creator: {
         type: mongoose.Types.ObjectId,
         ref: 'User',
         required: true

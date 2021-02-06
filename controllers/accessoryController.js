@@ -9,7 +9,9 @@ router.get('/create', (req, res) => {
 });
 
 router.post('/create', validateAccessory, (req, res) => {
-    accessoryService.create(req.body).then(accessory => res.redirect('/products')).catch(() => res.status(500).end());
+    accessoryService.create(req.body)
+        .then(() => res.redirect('/products'))
+        .catch(() => res.status(500).end());
 })
 
 module.exports = router;

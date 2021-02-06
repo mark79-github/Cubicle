@@ -7,8 +7,10 @@
             <p><span>Difficulty level:</span>{{difficultyLevel}}</p>
             <div class="btn-wrapper">
                 <a class="btn" href="/">Back</a>
-                <a class="btn" href="/products/edit/{{_id}}">Edit</a>
-                <a class="btn" href="/products/delete/{{_id}}">Delete</a>
+                {{#if isCreator}}
+                    <a class="btn" href="/products/edit/{{_id}}">Edit</a>
+                    <a class="btn" href="/products/delete/{{_id}}">Delete</a>
+                {{/if}}
             </div>
         </div>
         <h2>Accessories</h2>

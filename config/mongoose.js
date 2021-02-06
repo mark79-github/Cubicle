@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const config = require('./config');
 
 // # 1
-// mongoose.connect(config.DB, {useNewUrlParser: true, useUnifiedTopology: true})
+// mongoose.connect(config.DB, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
 //     .then(r => JSON.parse(r))
 //     .catch(console.log);
 //
@@ -14,12 +14,12 @@ const config = require('./config');
 // });
 
 // # 2
-mongoose.connect(config.DB, {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(config.DB, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
     .then((res) => console.log(`Successfully connected to ${res.connections[0].host} : db -> ${res.connections[0].name}`))
     .catch(console.warn.bind(console, 'Connection error:'));
 
 // # 3
-// mongoose.connect(config.DB, { useNewUrlParser: true, useUnifiedTopology: true })
+// mongoose.connect(config.DB, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
 // mongoose.connection
 //     .on('error', console.warn.bind(console, 'connection error:'))
 //     .once('open', console.log.bind(console, 'db connected ...'));

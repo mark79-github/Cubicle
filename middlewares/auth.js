@@ -10,7 +10,7 @@ module.exports = () => {
                     res.clearCookie(authCookie);
                 } else {
                     req.user = data;
-                    res.locals.user = data;
+                    // res.locals.user = data;
                     res.locals.isLogged = !! data;
                 }
             });

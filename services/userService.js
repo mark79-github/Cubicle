@@ -4,6 +4,9 @@ const config = require('../config/config');
 const bcrypt = require('bcrypt');
 
 const create = (data) => {
+
+    //TODO: check if username already exists
+
     let user = new User(data);
     return user.save();
 }
@@ -17,9 +20,7 @@ const login = async (data) => {
     let isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) throw {message: 'Password does not match'};
 
-    let token = jwt.sign({id: user._id}, config.secret, {expiresIn: "1h"});
-
-    return token;
+    return jwt.sign({id: user._id}, config.secret, {expiresIn: "1h"});
 };
 
 module.exports = {
