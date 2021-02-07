@@ -25,7 +25,9 @@ router.get('/create', isAuthenticated, (req, res) => {
 router.post('/create', isAuthenticated, validateProduct, (req, res) => {
     productService.create(req.user.id, req.body)
         .then(() => res.redirect('/products'))
-        .catch(() => res.status(500).end());
+        .catch((err) => {
+            res.status(500).end()
+        });
 });
 
 router.get('/details/:productId', (req, res) => {

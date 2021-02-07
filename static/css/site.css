@@ -40,12 +40,14 @@ header ul li {
     vertical-align: middle;
 }
 
-header ul li a {
+header ul li a,
+.nav-username{
     text-decoration: none;
     text-transform: uppercase;
     color: white;
     font-weight: bold;
     margin: 0 1em;
+    padding: 0;
 }
 
 header ul li a:hover {

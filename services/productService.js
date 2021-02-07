@@ -29,7 +29,7 @@ function getOne(id, populateData) {
 }
 
 function create(creatorId, data) {
-    let cube = new Cube({...data, creatorId});
+    let cube = new Cube({...data, creator: creatorId});
     return cube.save();
 }
 

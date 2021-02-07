@@ -6,6 +6,7 @@
         {{#if isLogged}}
             <li><a href="/products/create">Add a Cube</a></li>
             <li><a href="/accessories/create">Add Accessory</a></li>
+            <li><span class="nav-username">Logged as: {{username}}</span></li>
             <li><a href="/users/logout">Logout</a></li>
         {{else}}
             <li><a href="/users/login">Login</a></li>

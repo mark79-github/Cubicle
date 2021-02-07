@@ -12,6 +12,7 @@ module.exports = () => {
                     req.user = data;
                     // res.locals.user = data;
                     res.locals.isLogged = !! data;
+                    res.locals.username = data.username;
                 }
             });
         }
