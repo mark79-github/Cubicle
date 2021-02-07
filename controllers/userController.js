@@ -30,7 +30,7 @@ router.post('/register', isGuest, validateUser, async (req, res) => {
         await userService.register(req.body);
         res.redirect('/users/login');
     } catch (err) {
-        res.render('users/register', {title: 'Login', message: err.message})
+        res.render('users/register', {title: 'Login', message: err.message});
     }
 });
 

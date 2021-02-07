@@ -15,12 +15,12 @@ const register = async (data) => {
 const login = async (data) => {
     const {username, password} = data;
 
-    let user = await User.findOne({username});
-    if (!user) throw {message: 'User not found'};
-
+    let user = await User.findOne({username}) || {};
     let isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) throw {message: 'Password does not match'};
 
+    if (!user || !isMatch){
+        throw {message: 'Wrong username and/or password'}
+    }
     return jwt.sign({id: user._id}, config.secret, {expiresIn: "1h"});
 };
 
