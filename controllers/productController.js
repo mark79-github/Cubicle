@@ -2,7 +2,7 @@ const {Router} = require('express');
 const productService = require('../services/productService');
 const accessoryService = require('../services/accessoryService');
 const {validateProduct} = require('../helpers/productHelpers');
-const {isAuthenticated, isGuest} = require('../middlewares');
+const {isAuthenticated, isCreator} = require('../middlewares');
 
 const router = Router();
 
@@ -60,24 +60,24 @@ router.post('/:productId/attach', isAuthenticated, (req, res) => {
         });
 });
 
-router.get('/edit/:productId', isAuthenticated, async (req, res) => {
+router.get('/edit/:productId', isAuthenticated, isCreator, async (req, res) => {
     let product = await productService.getOne(req.params.productId, false);
     res.render('products/edit', {title: 'Edit', product});
 });
 
-router.get('/delete/:productId', isAuthenticated, async (req, res) => {
+router.get('/delete/:productId', isAuthenticated, isCreator, async (req, res) => {
     let product = await productService.getOne(req.params.productId, false);
     res.render('products/delete', {title: 'Delete', product});
 });
 
-router.post('/edit/:productId', isAuthenticated, (req, res) => {
+router.post('/edit/:productId', isAuthenticated, isCreator, (req, res) => {
     const productId = req.params.productId;
     productService.update(productId, req.body)
         .then(() => res.redirect(`/products/details/${productId}`))
         .catch(() => res.status(500).end());
 });
 
-router.post('/delete/:productId', isAuthenticated, (req, res) => {
+router.post('/delete/:productId', isAuthenticated, isCreator, (req, res) => {
     productService.remove(req.params.productId)
         .then(() => res.redirect('/products'))
         .catch(() => res.status(500).end());
