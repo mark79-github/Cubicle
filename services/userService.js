@@ -3,11 +3,12 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/config');
 const bcrypt = require('bcrypt');
 
-const create = (data) => {
+const register = async (data) => {
 
-    //TODO: check if username already exists
+    let user = await User.findOne({username: data.username});
+    if (user) throw {message: 'Username is in use'};
 
-    let user = new User(data);
+    user = new User(data);
     return user.save();
 }
 
@@ -24,6 +25,6 @@ const login = async (data) => {
 };
 
 module.exports = {
-    create,
+    register,
     login
 }
