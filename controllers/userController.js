@@ -11,10 +11,12 @@ router.get('/login', isGuest, (req, res) => {
 });
 
 router.post('/login', isGuest, validateLoginUser, (req, res) => {
+
+    const cookieOptions = {maxAge: 1000 * 60 * 60, httpOnly: true}
+
     // try {
     //     let token = userService.login(req.body);
-    //     console.log('controller - token', token);
-    //     res.cookie(config.authCookie, token, {maxAge: 1000 * 60 * 60, httpOnly: true});
+    //     res.cookie(config.authCookie, token, cookieOptions);
     //     res.redirect('/products');
     // } catch (error) {
     //     res.render('users/login', {message: error.message});
@@ -26,7 +28,7 @@ router.post('/login', isGuest, validateLoginUser, (req, res) => {
                 throw {message: 'Wrong username and/or password'};
             }
             return res
-                .cookie(config.authCookie, token, {maxAge: 1000 * 60 * 60, httpOnly: true})
+                .cookie(config.authCookie, token, cookieOptions)
                 .redirect('/products');
         })
         .catch((error) => {
@@ -43,7 +45,7 @@ router.post('/register', isGuest, validateRegisterUser, (req, res) => {
     //     await userService.register(req.body);
     //     res.redirect('/users/login');
     // } catch (err) {
-    //     res.render('users/register', {title: 'Login', message: err.message});
+    //     res.render('users/register', {title: 'Register', message: err.message});
     // }
 
     userService.register(req.body)
