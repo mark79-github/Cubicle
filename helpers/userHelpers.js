@@ -1,4 +1,4 @@
-exports.validateUser = function (req, res, next) {
+function validateRegisterUser(req, res, next){
     const {username, password, repeatPassword} = req.body;
 
     let error = {
@@ -27,4 +27,28 @@ exports.validateUser = function (req, res, next) {
     }
 
     next();
+}
+
+function validateLoginUser(req, res, next){
+    const {username, password} = req.body;
+
+    let error = {
+        title: 'Login'
+    }
+
+    if (username.trim().length === 0 || username.trim().length < 5) {
+        // res.locals.message = 'Username length must be at least 5 characters';
+        return res.render('users/login', Object.assign(error, {message: 'Username length must be at least 5 characters'}));
+    }
+
+    if (password.trim().length === 0 || password.trim().length < 8) {
+        return res.render('users/login', Object.assign(error, {message: 'Password length must be at least 8 characters'}));
+    }
+
+    next();
+}
+
+module.exports = {
+    validateRegisterUser,
+    validateLoginUser
 }

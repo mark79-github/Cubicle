@@ -10,4 +10,7 @@ module.exports = (app) => {
     app.use(express.urlencoded({extended: true})); // body-parser
     app.use(cookieParser()); //cookie-parser
     app.use(auth()); // authentication middleware
+    app.use((error, req, res, next) => {
+        return res.status(500).json({ message: error.message });
+    }); // error-handler
 };
