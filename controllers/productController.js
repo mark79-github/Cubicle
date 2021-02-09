@@ -1,8 +1,6 @@
 const {Router} = require('express');
-const productService = require('../services/productService');
-const accessoryService = require('../services/accessoryService');
-const {validateProductCreate, validateProductEdit} = require('../helpers/productHelpers');
-const {isAuthenticated, isCreator} = require('../middlewares');
+const {productService, accessoryService} = require('../services');
+const {isAuthenticated, isCreator, validator} = require('../middlewares');
 
 const router = Router();
 
@@ -14,18 +12,18 @@ const router = Router();
 
 router.get('/', (req, res) => {
     productService.getAll(req.query)
-        .then((products) => res.render('home/home', {title: 'Products', products}))
+        .then((products) => res.render('home/home', {products}))
         .catch(() => res.status(500).end());
 });
 
 router.get('/create', isAuthenticated, (req, res) => {
-    res.render('products/create', {title: 'Create product'});
+    res.render('products/create');
 });
 
-router.post('/create', isAuthenticated, validateProductCreate, (req, res) => {
+router.post('/create', isAuthenticated, validator.product.create, (req, res) => {
     productService.create(req.user.id, req.body)
         .then(() => res.redirect('/products'))
-        .catch((err) => {
+        .catch(() => {
             res.status(500).end()
         });
 });
@@ -41,8 +39,8 @@ router.get('/details/:productId', (req, res) => {
                 product.isCreator = false;
             }
 
-            res.render('products/details', {title: 'Details', product});
-        }).catch((err) => {
+            res.render('products/details', {product});
+        }).catch(() => {
         res.status(500).end()
     });
 })
@@ -51,23 +49,23 @@ router.get('/:productId/attach', isAuthenticated, async (req, res) => {
     let product = await productService.getOne(req.params.productId, false);
     let accessories = await accessoryService.getAllUnattached(product.accessories);
 
-    res.render('products/attach', {title: 'Attach accessory', product, accessories});
+    res.render('products/attach', {product, accessories});
 });
 
 router.post('/:productId/attach', isAuthenticated, (req, res) => {
     productService.attach(req.params.productId, req.body.accessory)
         .then(() => res.redirect(`/products/details/${req.params.productId}`))
-        .catch((err) => {
+        .catch(() => {
             res.status(500).end()
         });
 });
 
 router.get('/edit/:productId', isAuthenticated, isCreator, async (req, res) => {
     let product = await productService.getOne(req.params.productId, false);
-    res.render('products/edit', {title: 'Edit', product});
+    res.render('products/edit', {product});
 });
 
-router.post('/edit/:productId', isAuthenticated, isCreator, validateProductEdit, (req, res) => {
+router.post('/edit/:productId', isAuthenticated, isCreator, validator.product.edit, (req, res) => {
     const productId = req.params.productId;
     productService.update(productId, req.body)
         .then(() => res.redirect(`/products/details/${productId}`))
@@ -76,7 +74,7 @@ router.post('/edit/:productId', isAuthenticated, isCreator, validateProductEdit,
 
 router.get('/delete/:productId', isAuthenticated, isCreator, async (req, res) => {
     let product = await productService.getOne(req.params.productId, false);
-    res.render('products/delete', {title: 'Delete', product});
+    res.render('products/delete', {product});
 });
 
 router.post('/delete/:productId', isAuthenticated, isCreator, (req, res) => {

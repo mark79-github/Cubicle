@@ -1,10 +1,7 @@
 const {Router} = require('express');
 const router = Router();
 
-const productController = require('../controllers/productController');
-const homeController = require('../controllers/homeController');
-const accessoryController = require('../controllers/accessoryController');
-const userController = require('../controllers/userController');
+const {productController, accessoryController, homeController, userController} = require('../controllers');
 const {isAuthenticated} = require('../middlewares');
 
 router.use('/', homeController);

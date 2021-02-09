@@ -1,8 +1,8 @@
 const jwt = require('jsonwebtoken');
 const {authCookie, secret} = require('../config/config');
 
-module.exports = () => {
-    return(req, res, next) => {
+module.exports = function () {
+    return (req, res, next) => {
         let token = req.cookies[authCookie];
         if (token) {
             jwt.verify(token, secret, function (err, data) {
@@ -11,7 +11,7 @@ module.exports = () => {
                 } else {
                     req.user = data;
                     // res.locals.user = data;
-                    res.locals.isLogged = !! data;
+                    res.locals.isLogged = !!data;
                     res.locals.username = data.username;
                 }
             });
@@ -20,3 +20,18 @@ module.exports = () => {
         next();
     }
 }
+
+// module.exports = {
+//     user: {
+//         register(req, res, next) {
+//         },
+//         login(req, res, next) {
+//         },
+//     },
+//     product: {
+//         create: function (req, res, next) {
+//         },
+//         edit: (req, res, next) => {
+//         }
+//     },
+// }
