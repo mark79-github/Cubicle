@@ -50,7 +50,7 @@ function login(data) {
             return [false];
         }).then(([isMatch, user]) => {
             if (isMatch) {
-                return jwt.sign({id: user._id, username: user.username}, config.secret, {expiresIn: "60s"});
+                return jwt.sign({id: user._id, username: user.username}, config.secret, {expiresIn: "1h"});
             } else {
                 return '';
             }

@@ -3,53 +3,62 @@ module.exports = {
         register(req, res, next) {
             const {username, password, repeatPassword} = req.body;
 
-            let errors = [];
+            let user = {
+                errors: [],
+            };
 
             if (username.trim().length === 0 || username.trim().length < 5) {
-                errors.push('Username length must be at least 5 characters');
-            }
-
-            if (password.trim().length === 0 || password.trim().length < 8) {
-                errors.push('Password length must be at least 8 characters');
-            }
-
-            if (password.trim() !== repeatPassword.trim()) {
-                errors.push('Both passwords are not equal');
+                user.errors.push('Username length must be at least 5 characters');
+            } else {
+                user.username = username.trim();
             }
 
             if (!/^[A-Za-z0-9]+$/.test(username.trim())) {
-                errors.push('Username must contains only digits and/or latin letters');
+                user.errors.push('Username must contains only digits and/or latin letters');
+                user.username = undefined;
+            }
+
+            if (password.trim().length === 0 || password.trim().length < 8) {
+                user.errors.push('Password length must be at least 8 characters');
+            }
+
+            if (password.trim() !== repeatPassword.trim()) {
+                user.errors.push('Both passwords are not equal');
             }
 
             if (!/^[A-Za-z0-9]+$/.test(password.trim())) {
-                errors.push('Password must contains only digits and/or latin letters');
+                user.errors.push('Password must contains only digits and/or latin letters');
             }
 
-            if (!errors.length) {
+            if (!user.errors.length) {
                 next();
                 return;
             }
-            res.render('users/register', {message: errors.shift(), username});
+            res.render('users/register', {...user, message: user.errors.shift()});
 
         },
         login(req, res, next) {
             const {username, password} = req.body;
 
-            let errors = [];
+            let user = {
+                errors: [],
+            };
 
             if (username.trim().length === 0 || username.trim().length < 5) {
-                errors.push('Username must be at least 5 characters');
+                user.errors.push('Username must be at least 5 characters');
+            } else {
+                user.username = username.trim();
             }
 
             if (password.trim().length === 0 || password.trim().length < 8) {
-                errors.push('Password length must be at least 8 characters');
+                user.errors.push('Password length must be at least 8 characters');
             }
 
-            if (!errors.length) {
+            if (!user.errors.length) {
                 next();
                 return;
             }
-            res.render('users/login', {message: errors.shift(), username})
+            res.render('users/login', {...user, message: user.errors.shift()})
         },
     },
     product: {
@@ -63,13 +72,13 @@ module.exports = {
             if (name.trim().length === 0 || name.trim().length < 5) {
                 product.errors.push('Name must be at least 5 characters');
             } else {
-                product.name = name;
+                product.name = name.trim();
             }
 
             if (description.trim().length === 0 || description.trim().length < 20) {
                 product.errors.push('Description must be at least 20 characters');
             } else {
-                product.description = description;
+                product.description = description.trim();
             }
 
             if (!/^https?/.test(imageUrl.trim())) {
@@ -127,42 +136,41 @@ module.exports = {
                 return;
             }
 
-            res.render('products/edit', {product, message: product.errors.shift()});
+            res.render('products/edit', {...product, message: product.errors.shift()});
         }
     },
     accessory: {
         create(req, res, next) {
             const {name, description, imageUrl} = req.body;
 
-            let errors = [];
-            let accessory = {};
+            let accessory = {
+                errors: [],
+            };
 
             if (name.trim().length === 0 || name.trim().length < 5) {
-                errors.push('Name must be at least 5 characters');
+                accessory.errors.push('Name must be at least 5 characters');
             } else {
                 accessory.name = name;
             }
 
             if (description.trim().length === 0 || description.trim().length < 20) {
-                errors.push('Description must be at least 20 characters');
+                accessory.errors.push('Description must be at least 20 characters');
             } else {
                 accessory.description = description;
             }
 
             if (!/^https?/.test(imageUrl.trim())) {
-                errors.push('ImageUrl must start with http or https');
+                accessory.errors.push('ImageUrl must start with http or https');
             } else {
                 accessory.imageUrl = imageUrl;
             }
 
-            if (!errors.length) {
+            if (!accessory.errors.length) {
                 next();
                 return;
             }
 
-            console.log(req.path);
-
-            res.render('accessories/create', {message: errors.shift(), ...accessory});
+            res.render('accessories/create', {...accessory, message: accessory.errors.shift()});
 
         }
     }

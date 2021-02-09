@@ -62,7 +62,7 @@ router.post('/:productId/attach', isAuthenticated, (req, res) => {
 
 router.get('/edit/:productId', isAuthenticated, isCreator, async (req, res) => {
     let product = await productService.getOne(req.params.productId, false);
-    res.render('products/edit', {product});
+    res.render('products/edit', {...product});
 });
 
 router.post('/edit/:productId', isAuthenticated, isCreator, validator.product.edit, (req, res) => {
@@ -74,7 +74,7 @@ router.post('/edit/:productId', isAuthenticated, isCreator, validator.product.ed
 
 router.get('/delete/:productId', isAuthenticated, isCreator, async (req, res) => {
     let product = await productService.getOne(req.params.productId, false);
-    res.render('products/delete', {product});
+    res.render('products/delete', {...product});
 });
 
 router.post('/delete/:productId', isAuthenticated, isCreator, (req, res) => {

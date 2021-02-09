@@ -7,10 +7,10 @@ module.exports = function () {
         if (token) {
             jwt.verify(token, secret, function (err, data) {
                 if (err) {
+                    req.user = {};
                     res.clearCookie(authCookie);
                 } else {
                     req.user = data;
-                    // res.locals.user = data;
                     res.locals.isLogged = !!data;
                     res.locals.username = data.username;
                 }
