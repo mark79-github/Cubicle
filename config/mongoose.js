@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const config = require('./config');
+const {msg} = require('./constants');
 
 const dbConnectionOptions = {
     useNewUrlParser: true,
@@ -22,8 +23,8 @@ const dbConnectionOptions = {
 
 // # 2
 mongoose.connect(config.DB, dbConnectionOptions)
-    .then((res) => console.log(`Successfully connected to ${res.connections[0].host} : db -> ${res.connections[0].name}`))
-    .catch(console.warn.bind(console, 'Connection error:'));
+    .then((res) => console.log(msg.DB_CONNECTED(res.connections[0].host, res.connections[0].name)))
+    .catch(console.warn.bind(console, msg.DB_CONNECTION_ERROR));
 
 // # 3
 // mongoose.connect(config.DB, dbConnectionOptions)

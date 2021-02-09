@@ -1,4 +1,4 @@
-const productService = require('../services/productService');
+const productService = require('../../services/productService');
 
 module.exports = async (req, res, next) => {
     if (req.user) {

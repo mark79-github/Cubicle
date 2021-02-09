@@ -1,4 +1,4 @@
-const Accessory = require('../models/Accessory');
+const {Accessory} = require('../models');
 
 function create(data) {
     let accessory = new Accessory(data);

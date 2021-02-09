@@ -1,11 +1,11 @@
 const jwt = require('jsonwebtoken');
-const {authCookie, secret} = require('../config/config');
+const {authCookie, privateKey} = require('../../config/config');
 
 module.exports = function () {
     return (req, res, next) => {
         let token = req.cookies[authCookie];
         if (token) {
-            jwt.verify(token, secret, function (err, data) {
+            jwt.verify(token, privateKey, function (err, data) {
                 if (err) {
                     req.user = {};
                     res.clearCookie(authCookie);

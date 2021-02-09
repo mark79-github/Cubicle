@@ -1,28 +1,29 @@
 const mongoose = require('mongoose');
+const {constants} = require('../config/constants');
 
 const cubeSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
-        minlength: 5,
+        minlength: constants.NAME_MIN_LENGTH,
         // validate: /^[A-Za-z0-9\s]+$/
     },
     description: {
         type: String,
         required: true,
-        minlength: 20,
+        minlength: constants.DESCRIPTION_MIN_LENGTH,
         // validate: /^[A-Za-z0-9\s]+$/
     },
     imageUrl: {
         type: String,
         required: true,
-        validate: /^https?/,
+        validate: constants.IMAGE_URL_REGEX,
     },
     difficultyLevel: {
         type: Number,
         required: true,
-        min: 1,
-        max: 6
+        min: constants.DIFFICULTY_LEVEL_MIN,
+        max: constants.DIFFICULTY_LEVEL_MAX
     },
     creator: {
         type: mongoose.Types.ObjectId,

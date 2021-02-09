@@ -1,13 +1,13 @@
-const isGuest = require('./isGuest');
-const isAuthenticated = require('./isAuthenticated');
-const auth = require('./auth');
-const isCreator = require('./isCreator');
-const validator = require('./validator');
+const isGuest = require('./user/isGuest');
+const isLogged = require('./user/isLogged');
+const isAuthenticated = require('./user/isAuthenticated');
+const isCreator = require('./user/isCreator');
+const validate = require('./data/validate');
 
 module.exports = {
-    auth,
-    isGuest,
     isAuthenticated,
+    isGuest,
+    isLogged,
     isCreator,
-    validator
+    validate
 }

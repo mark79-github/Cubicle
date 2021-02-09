@@ -1,7 +1,8 @@
-const User = require('../models/User');
+const {User} = require('../models');
 const jwt = require('jsonwebtoken');
 const config = require('../config/config');
-const bcrypt = require('bcrypt');
+const {msg} = require('../config/constants');
+// const bcrypt = require('bcrypt');
 
 async function register(data) {
 
@@ -16,7 +17,7 @@ async function register(data) {
     await User.findOne({username})
         .then((user) => {
             if (user) {
-                throw {message: `Username ${username} is already taken ...`}
+                throw {message: msg.USERNAME_IS_IN_USE(username)}
             }
             return new User(data).save();
         });
@@ -50,7 +51,7 @@ function login(data) {
             return [false];
         }).then(([isMatch, user]) => {
             if (isMatch) {
-                return jwt.sign({id: user._id, username: user.username}, config.secret, {expiresIn: "1h"});
+                return jwt.sign({id: user._id, username: user.username}, config.privateKey, {expiresIn: "1h"});
             } else {
                 return '';
             }

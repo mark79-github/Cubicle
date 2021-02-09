@@ -2,11 +2,11 @@ const {Router} = require('express');
 const router = Router();
 
 const {productController, accessoryController, homeController, userController} = require('../controllers');
-const {isAuthenticated} = require('../middlewares');
+const {isLogged} = require('../middlewares');
 
 router.use('/', homeController);
 router.use('/products', productController);
-router.use('/accessories', isAuthenticated, accessoryController);
+router.use('/accessories', isLogged, accessoryController);
 router.use('/users', userController);
 router.use('*', (req, res) => {
     res.render('errors/404');

@@ -1,6 +1,6 @@
 const {Router} = require('express');
 const {productService, accessoryService} = require('../services');
-const {isAuthenticated, isCreator, validator} = require('../middlewares');
+const {isLogged, isCreator, validate} = require('../middlewares');
 
 const router = Router();
 
@@ -16,11 +16,11 @@ router.get('/', (req, res) => {
         .catch(() => res.status(500).end());
 });
 
-router.get('/create', isAuthenticated, (req, res) => {
+router.get('/create', isLogged, (req, res) => {
     res.render('products/create');
 });
 
-router.post('/create', isAuthenticated, validator.product.create, (req, res) => {
+router.post('/create', isLogged, validate.product.create, (req, res) => {
     productService.create(req.user.id, req.body)
         .then(() => res.redirect('/products'))
         .catch(() => {
@@ -45,14 +45,14 @@ router.get('/details/:productId', (req, res) => {
     });
 })
 
-router.get('/:productId/attach', isAuthenticated, async (req, res) => {
+router.get('/:productId/attach', isLogged, async (req, res) => {
     let product = await productService.getOne(req.params.productId, false);
     let accessories = await accessoryService.getAllUnattached(product.accessories);
 
-    res.render('products/attach', {product, accessories});
+    res.render('products/attach', {...product, accessories});
 });
 
-router.post('/:productId/attach', isAuthenticated, (req, res) => {
+router.post('/:productId/attach', isLogged, (req, res) => {
     productService.attach(req.params.productId, req.body.accessory)
         .then(() => res.redirect(`/products/details/${req.params.productId}`))
         .catch(() => {
@@ -60,24 +60,24 @@ router.post('/:productId/attach', isAuthenticated, (req, res) => {
         });
 });
 
-router.get('/edit/:productId', isAuthenticated, isCreator, async (req, res) => {
+router.get('/edit/:productId', isLogged, isCreator, async (req, res) => {
     let product = await productService.getOne(req.params.productId, false);
     res.render('products/edit', {...product});
 });
 
-router.post('/edit/:productId', isAuthenticated, isCreator, validator.product.edit, (req, res) => {
+router.post('/edit/:productId', isLogged, isCreator, validate.product.edit, (req, res) => {
     const productId = req.params.productId;
     productService.update(productId, req.body)
         .then(() => res.redirect(`/products/details/${productId}`))
         .catch(() => res.status(500).end());
 });
 
-router.get('/delete/:productId', isAuthenticated, isCreator, async (req, res) => {
+router.get('/delete/:productId', isLogged, isCreator, async (req, res) => {
     let product = await productService.getOne(req.params.productId, false);
     res.render('products/delete', {...product});
 });
 
-router.post('/delete/:productId', isAuthenticated, isCreator, (req, res) => {
+router.post('/delete/:productId', isLogged, isCreator, (req, res) => {
     productService.remove(req.params.productId)
         .then(() => res.redirect('/products'))
         .catch(() => res.status(500).end());
