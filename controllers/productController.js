@@ -41,11 +41,24 @@ router.get('/details/:productId', (req, res, next) => {
         }).catch(next);
 })
 
-router.get('/:productId/attach', isLogged, async (req, res) => {
-    let product = await productService.getOne(req.params.productId, false);
-    let accessories = await accessoryService.getAllUnattached(product.accessories);
+router.get('/:productId/attach', isLogged, async (req, res, next) => {
+    // try {
+    //     let product = await productService.getOne(req.params.productId, false);
+    //     let accessories = await accessoryService.getAllUnattached(product.accessories);
+    //
+    //     res.render('products/attach', {...product, accessories});
+    // } catch (error) {
+    //     next(error);
+    // }
 
-    res.render('products/attach', {...product, accessories});
+    productService.getOne(req.params.productId, false)
+        .then((product) => {
+            return Promise.all([product, accessoryService.getAllUnattached(product.accessories)]);
+        })
+        .then(([product, accessories]) => {
+            res.render('products/attach', {...product, accessories});
+        })
+        .catch(next);
 });
 
 router.post('/:productId/attach', isLogged, (req, res, next) => {
@@ -82,7 +95,7 @@ router.get('/delete/:productId', isLogged, isCreator, async (req, res, next) => 
     //     next(error);
     // }
 
-    // unhandled promise - why?!
+    // TODO: ??!? : unhandled promise
     productService.getOne(req.params.productId, false)
         .then((product) => res.render('products/delete', {...product}))
         .catch(next);
