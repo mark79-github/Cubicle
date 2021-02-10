@@ -8,10 +8,10 @@ router.get('/create', (req, res) => {
     res.render('accessories/create');
 });
 
-router.post('/create', validate.accessory.create, (req, res) => {
+router.post('/create', validate.accessory.create, (req, res, next) => {
     accessoryService.create(req.body)
         .then(() => res.redirect('/products'))
-        .catch(() => res.status(500).end());
+        .catch(next);
 })
 
 module.exports = router;

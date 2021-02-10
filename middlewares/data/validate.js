@@ -11,30 +11,25 @@ module.exports = {
 
             if (username.trim().length === 0 || username.trim().length < constants.USERNAME_MIN_LENGTH) {
                 user.errors.push(msg.USERNAME_MIN_LENGTH);
-                // user.errors.push('Username length must be at least 5 characters');
             } else {
                 user.username = username.trim();
             }
 
             if (!constants.USERNAME_REGEX.test(username.trim())) {
                 user.errors.push(msg.USERNAME_ONLY_ALPHABETICAL);
-                // user.errors.push('Username must contains only digits and/or latin letters');
                 user.username = undefined;
             }
 
             if (password.trim().length === 0 || password.trim().length < constants.PASSWORD_MIN_LENGTH) {
                 user.errors.push(msg.PASSWORD_MIN_LENGTH);
-                // user.errors.push('Password length must be at least 8 characters');
             }
 
             if (password.trim() !== repeatPassword.trim()) {
                 user.errors.push(msg.CONFIRMATION_PASSWORD_ERROR);
-                // user.errors.push('Your password and confirmation password do not match');
             }
 
             if (!constants.PASSWORD_REGEX.test(password.trim())) {
                 user.errors.push(msg.PASSWORD_ONLY_ALPHABETICAL);
-                // user.errors.push('Password must contains only digits and/or latin letters');
             }
 
             if (!user.errors.length) {
@@ -87,10 +82,20 @@ module.exports = {
                 product.name = name.trim();
             }
 
+            if (!constants.NAME_REGEX.test(name.trim())) {
+                product.errors.push(msg.NAME_ONLY_ALPHABETICAL_SPACE);
+                product.name = undefined;
+            }
+
             if (description.trim().length === 0 || description.trim().length < 20) {
                 product.errors.push(msg.DESCRIPTION_MIN_LENGTH);
             } else {
                 product.description = description.trim();
+            }
+
+            if (!constants.DESCRIPTION_REGEX.test(description.trim())) {
+                product.errors.push(msg.DESCRIPTION_ONLY_ALPHABETICAL_SPACE);
+                product.description = undefined;
             }
 
             if (!constants.IMAGE_URL_REGEX.test(imageUrl.trim())) {
@@ -125,10 +130,20 @@ module.exports = {
                 product.name = name;
             }
 
+            if (!constants.NAME_REGEX.test(name.trim())) {
+                product.errors.push(msg.NAME_ONLY_ALPHABETICAL_SPACE);
+                product.name = undefined;
+            }
+
             if (description.trim().length === 0 || description.trim().length < constants.DESCRIPTION_MIN_LENGTH) {
                 product.errors.push(msg.DESCRIPTION_MIN_LENGTH);
             } else {
                 product.description = description;
+            }
+
+            if (!constants.DESCRIPTION_REGEX.test(description.trim())) {
+                product.errors.push(msg.DESCRIPTION_ONLY_ALPHABETICAL_SPACE);
+                product.description = undefined;
             }
 
             if (!constants.IMAGE_URL_REGEX.test(imageUrl.trim())) {

@@ -6,13 +6,13 @@ const cubeSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: constants.NAME_MIN_LENGTH,
-        // validate: /^[A-Za-z0-9\s]+$/
+        validate: constants.NAME_REGEX,
     },
     description: {
         type: String,
         required: true,
         minlength: constants.DESCRIPTION_MIN_LENGTH,
-        // validate: /^[A-Za-z0-9\s]+$/
+        validate: constants.DESCRIPTION_REGEX,
     },
     imageUrl: {
         type: String,

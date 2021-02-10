@@ -6,11 +6,13 @@ const accessorySchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: constants.NAME_MIN_LENGTH,
+        validate: constants.NAME_REGEX,
     },
     description: {
         type: String,
         required: true,
         minlength: constants.DESCRIPTION_MIN_LENGTH,
+        validate: constants.DESCRIPTION_REGEX,
     },
     imageUrl: {
         type: String,

@@ -10,25 +10,23 @@ const router = Router();
 
 // router.get('/', index);
 
-router.get('/', (req, res) => {
+router.get('/', (req, res, next) => {
     productService.getAll(req.query)
         .then((products) => res.render('home/home', {products}))
-        .catch(() => res.status(500).end());
+        .catch(next);
 });
 
 router.get('/create', isLogged, (req, res) => {
     res.render('products/create');
 });
 
-router.post('/create', isLogged, validate.product.create, (req, res) => {
+router.post('/create', isLogged, validate.product.create, (req, res, next) => {
     productService.create(req.user.id, req.body)
         .then(() => res.redirect('/products'))
-        .catch(() => {
-            res.status(500).end()
-        });
+        .catch(next);
 });
 
-router.get('/details/:productId', (req, res) => {
+router.get('/details/:productId', (req, res, next) => {
 
     productService.getOne(req.params.productId, true)
         .then((product) => {
@@ -40,9 +38,7 @@ router.get('/details/:productId', (req, res) => {
             }
 
             res.render('products/details', {product});
-        }).catch(() => {
-        res.status(500).end()
-    });
+        }).catch(next);
 })
 
 router.get('/:productId/attach', isLogged, async (req, res) => {
@@ -52,35 +48,50 @@ router.get('/:productId/attach', isLogged, async (req, res) => {
     res.render('products/attach', {...product, accessories});
 });
 
-router.post('/:productId/attach', isLogged, (req, res) => {
+router.post('/:productId/attach', isLogged, (req, res, next) => {
     productService.attach(req.params.productId, req.body.accessory)
         .then(() => res.redirect(`/products/details/${req.params.productId}`))
-        .catch(() => {
-            res.status(500).end()
-        });
+        .catch(next);
 });
 
-router.get('/edit/:productId', isLogged, isCreator, async (req, res) => {
-    let product = await productService.getOne(req.params.productId, false);
-    res.render('products/edit', {...product});
+router.get('/edit/:productId', isLogged, isCreator, async (req, res, next) => {
+    // try {
+    //     let product = await productService.getOne(req.params.productId, false);
+    //     res.render('products/edit', {...product});
+    // } catch (error) {
+    //     next(error);
+    // }
+
+    productService.getOne(req.params.productId, false)
+        .then(product => res.render('products/edit', {...product}))
+        .catch(next);
 });
 
-router.post('/edit/:productId', isLogged, isCreator, validate.product.edit, (req, res) => {
+router.post('/edit/:productId', isLogged, isCreator, validate.product.edit, (req, res, next) => {
     const productId = req.params.productId;
     productService.update(productId, req.body)
         .then(() => res.redirect(`/products/details/${productId}`))
-        .catch(() => res.status(500).end());
+        .catch(next);
 });
 
-router.get('/delete/:productId', isLogged, isCreator, async (req, res) => {
-    let product = await productService.getOne(req.params.productId, false);
-    res.render('products/delete', {...product});
+router.get('/delete/:productId', isLogged, isCreator, async (req, res, next) => {
+    // try {
+    //     let product = await productService.getOne(req.params.productId, false);
+    //     res.render('products/delete', {...product});
+    // } catch (error) {
+    //     next(error);
+    // }
+
+    // unhandled promise - why?!
+    productService.getOne(req.params.productId, false)
+        .then((product) => res.render('products/delete', {...product}))
+        .catch(next);
 });
 
-router.post('/delete/:productId', isLogged, isCreator, (req, res) => {
+router.post('/delete/:productId', isLogged, isCreator, (req, res, next) => {
     productService.remove(req.params.productId)
         .then(() => res.redirect('/products'))
-        .catch(() => res.status(500).end());
+        .catch(next);
 });
 
 module.exports = router;

@@ -9,6 +9,8 @@ module.exports = {
         IMAGE_URL_REGEX: /^https?/,
         DIFFICULTY_LEVEL_MIN: 1,
         DIFFICULTY_LEVEL_MAX: 6,
+        NAME_REGEX: /^[A-Za-z0-9\s]+$/,
+        DESCRIPTION_REGEX: /^[A-Za-z0-9\s]+$/,
     },
     msg: {
         USERNAME_MIN_LENGTH: "Username length must be at least 5 characters",
@@ -30,6 +32,8 @@ module.exports = {
         DB_CONNECTION_ERROR: "Connection error: ",
         APPLICATION_RUNNING: (port) => {
             return `Application is up & listening on port ${port} ...`;
-        }
+        },
+        NAME_ONLY_ALPHABETICAL_SPACE: "Username should contain only digits, latin letters and/or spaces",
+        DESCRIPTION_ONLY_ALPHABETICAL_SPACE: "Description should contain only digits, latin letters and/or spaces",
     }
 }
